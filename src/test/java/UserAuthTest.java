@@ -53,7 +53,7 @@ public class UserAuthTest {
         // Проверка, что responseCheckAuth не null
         assertTrue(responseCheckAuth != null, "ResponseCheckAuth is null");
 
-        int userIdOnCheck = responseCheckAuth.getInt("userId");
+        int userIdOnCheck = responseCheckAuth.getInt("user_id");
         assertTrue(userIdOnCheck>0,"Unexpected user id"+userIdOnCheck);
         assertEquals(
                 userIdAuth,
