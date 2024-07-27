@@ -9,8 +9,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import Lib.ApiCoreRequests;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class UserRegisterTest extends BaseTestCase {
+    private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
+
     @Test
     public void testCreateUserWithExistingEmail(){
         String email = "vinkotov@example.com";
@@ -67,7 +72,47 @@ public class UserRegisterTest extends BaseTestCase {
         Assertions.assertResponseHasField(responseCreateAuth,"id");
 
 
+    }
+
+    @Test
+    public void testCreateUserWithUncorrectEmail(){
+        String uncorrectedEmail = "vinkotovexample.com";
+
+        Map<String,String> userData = new HashMap<>();
+        userData.put("email",uncorrectedEmail);
+        userData = DataGenerator.getRegistrationData(userData);
+
+        Response responsePostUserWithUncorrectedEmail = apiCoreRequests
+                .makePostRequest("https://playground.learnqa.ru/api/user", userData);
+
+        System.out.println(responsePostUserWithUncorrectedEmail.asString());
+        System.out.println(responsePostUserWithUncorrectedEmail.statusCode());
+
+        Assertions.assertResponseTextEquals(responsePostUserWithUncorrectedEmail,"Invalid email format");
+        Assertions.assertResponseCodeEquals(responsePostUserWithUncorrectedEmail,400);
+
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"firstName", "lastName", "email", "password", "username"})
+    public void postWithNullfield(String value){
+        String valueKey = null;
+
+        Map<String,String> userData = new HashMap<>();
+        userData.put(value,valueKey);
+        userData = DataGenerator.getRegistrationData(userData);
+
+        Response responsePostUserWithUncorrectedEmail = apiCoreRequests
+                .makePostRequest("https://playground.learnqa.ru/api/user", userData);
+
+        System.out.println(responsePostUserWithUncorrectedEmail.asString());
+        System.out.println(responsePostUserWithUncorrectedEmail.statusCode());
+        System.out.println(userData);
+
+        Assertions.assertResponseTextEquals(responsePostUserWithUncorrectedEmail,"The following required params are missed: " + value);
+        Assertions.assertResponseCodeEquals(responsePostUserWithUncorrectedEmail,400);
 
 
     }
+
 }
