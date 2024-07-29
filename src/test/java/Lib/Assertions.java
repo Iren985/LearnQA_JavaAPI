@@ -5,6 +5,7 @@ import io.restassured.response.Response;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Assertions {
     public static void assertJsonByName(Response Response, String name, int expectedValue){
@@ -50,6 +51,12 @@ public class Assertions {
     public static void assertJsonHasNoField(Response Response, String unexpectedField) {
         Response.then().assertThat().body("$", not(hasKey(unexpectedField)));
 
+    }
+
+
+    public static void assertMessageIsCorrect(Response Response, String expectedMessage){
+        String responseBody = Response.asString();
+        assertTrue(responseBody.contains(expectedMessage));
     }
 
 

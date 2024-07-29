@@ -55,4 +55,24 @@ public class ApiCoreRequests {
                 .post(url)
                 .andReturn();
     }
+
+    @Step ("Make a PUT-request without login")
+    public Response makePutRequestWithoutLogin(String url, Map<String,String> editData){
+        return given()
+                .filter(new AllureRestAssured())
+                .body(editData)
+                .put(url)
+                .andReturn();
+    }
+
+    @Step ("Make a PUT-request with login")
+    public Response makePutRequestWithLogin(String url, String cookie, String token,Map<String,String> editData){
+        return given()
+                .filter(new AllureRestAssured())
+                .header(new Header("x-csrf-token",token))
+                .cookie("auth_sid", cookie)
+                .body(editData)
+                .put(url)
+                .andReturn();
+    }
 }
