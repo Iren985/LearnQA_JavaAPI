@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 import Lib.ApiCoreRequests;
+import Lib.DataGenerator;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -114,5 +115,45 @@ public class UserRegisterTest extends BaseTestCase {
 
 
     }
+
+   @Test
+    public void testWith1smblName(){
+        String shortName = DataGenerator.getRandomShortName();
+
+       Map<String,String> userData = new HashMap<>();
+       userData.put("firstName",shortName);
+       userData = DataGenerator.getRegistrationData(userData);
+
+       Response responsePostUserWith1smblName = apiCoreRequests
+               .makePostRequest("https://playground.learnqa.ru/api/user", userData);
+
+       System.out.println(userData);
+       System.out.println(responsePostUserWith1smblName.asString());
+       System.out.println(responsePostUserWith1smblName.statusCode());
+
+       Assertions.assertResponseTextEquals(responsePostUserWith1smblName,"The value of 'firstName' field is too short");
+       Assertions.assertResponseCodeEquals(responsePostUserWith1smblName,400);
+
+   }
+    @Test
+    public void testWithLongName(){
+        String longName = DataGenerator.getRandomLongName();
+
+        Map<String,String> userData = new HashMap<>();
+        userData.put("firstName",longName);
+        userData = DataGenerator.getRegistrationData(userData);
+
+        Response responsePostUserWithLongName = apiCoreRequests
+                .makePostRequest("https://playground.learnqa.ru/api/user", userData);
+
+        System.out.println(userData);
+        System.out.println(responsePostUserWithLongName.asString());
+        System.out.println(responsePostUserWithLongName.statusCode());
+
+        Assertions.assertResponseTextEquals(responsePostUserWithLongName,"The value of 'firstName' field is too long");
+        Assertions.assertResponseCodeEquals(responsePostUserWithLongName,400);
+
+    }
+
 
 }

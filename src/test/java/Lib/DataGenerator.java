@@ -1,5 +1,6 @@
 package Lib;
 
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,5 +36,20 @@ public class DataGenerator {
             }
         }
         return userData;
+    }
+
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    private static final SecureRandom RANDOM = new SecureRandom();
+
+    public  static String getRandomShortName(){
+        return String.valueOf(CHARACTERS.charAt(RANDOM.nextInt(CHARACTERS.length())));
+    }
+
+    public static String getRandomLongName() {
+        StringBuilder longName = new StringBuilder();
+        for (int i = 0; i < 251; i++) {
+            longName.append(CHARACTERS.charAt(RANDOM.nextInt(CHARACTERS.length())));
+        }
+        return longName.toString();
     }
 }
