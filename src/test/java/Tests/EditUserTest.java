@@ -110,8 +110,8 @@ public class EditUserTest extends BaseTestCase {
     @Description("This test checks editing other user than auth")
     public void testEditOtherUserAuth(){
             Map<String,String>authData = new HashMap<>();
-            authData.put("email","vinkotov@example.com");
-            authData.put("password","1234");
+            authData.put("email","Learnqa20240730135441@example.com");
+            authData.put("password","123");
 
             Response responseGetAuth = apiCoreRequests
                     .makePostRequest("https://playground.learnqa.ru/api/user/login", authData);
@@ -133,7 +133,7 @@ public class EditUserTest extends BaseTestCase {
 
         System.out.println(makePutRequestWithLogin.asString());
         System.out.println(makePutRequestWithLogin.statusCode());
-        Assertions.assertMessageIsCorrect(makePutRequestWithLogin,"Please, do not edit test users with ID 1, 2, 3, 4 or 5.");
+        Assertions.assertMessageIsCorrect(makePutRequestWithLogin,"This user can only edit their own data.");
         Assertions.assertResponseCodeEquals(makePutRequestWithLogin,400);
     }
 
@@ -141,8 +141,8 @@ public class EditUserTest extends BaseTestCase {
     @Test
     public void testEditUserAuth(){
         Map<String,String>authData = new HashMap<>();
-        authData.put("email","vinkotov@example.com");
-        authData.put("password","1234");
+        authData.put("email","Learnqa20240730135441@example.com");
+        authData.put("password","123");
 
         Response responseGetAuth = apiCoreRequests
                 .makePostRequest("https://playground.learnqa.ru/api/user/login", authData);
@@ -151,7 +151,7 @@ public class EditUserTest extends BaseTestCase {
         this.header = this.getHeader(responseGetAuth,"x-csrf-token");
         this.userIdOnAuth = this.getIntFromJson(responseGetAuth,"user_id");
 
-        String newMail = "vinkotovexample.com";
+        String newMail = "tttexample.com";
         Map<String,String > editData = new HashMap<>();
         editData.put("email", newMail);
 
@@ -162,7 +162,7 @@ public class EditUserTest extends BaseTestCase {
 
         System.out.println(makePutRequestWithLogin.asString());
         System.out.println(makePutRequestWithLogin.statusCode());
-        Assertions.assertMessageIsCorrect(makePutRequestWithLogin,"Please, do not edit test users with ID 1, 2, 3, 4 or 5.");
+        Assertions.assertMessageIsCorrect(makePutRequestWithLogin,"Invalid email format");
         Assertions.assertResponseCodeEquals(makePutRequestWithLogin,400);
     }
 
@@ -170,8 +170,8 @@ public class EditUserTest extends BaseTestCase {
     @Test
     public void testEditUserAuthwith1smblName(){
         Map<String,String>authData = new HashMap<>();
-        authData.put("email","vinkotov@example.com");
-        authData.put("password","1234");
+        authData.put("email","Learnqa20240730135441@example.com");
+        authData.put("password","123");
 
         Response responseGetAuth = apiCoreRequests
                 .makePostRequest("https://playground.learnqa.ru/api/user/login", authData);
@@ -191,7 +191,7 @@ public class EditUserTest extends BaseTestCase {
 
         System.out.println(makePutRequestWithLogin.asString());
         System.out.println(makePutRequestWithLogin.statusCode());
-        Assertions.assertMessageIsCorrect(makePutRequestWithLogin,"Please, do not edit test users with ID 1, 2, 3, 4 or 5.");
+        Assertions.assertMessageIsCorrect(makePutRequestWithLogin,"The value for field `firstName` is too short");
         Assertions.assertResponseCodeEquals(makePutRequestWithLogin,400);
     }
 

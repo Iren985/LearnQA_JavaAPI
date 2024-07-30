@@ -68,6 +68,7 @@ public class UserRegisterTest extends BaseTestCase {
 
         System.out.println(responseCreateAuth.asString());
         System.out.println(responseCreateAuth.statusCode());
+        System.out.println(userData);
 
         Assertions.assertResponseCodeEquals(responseCreateAuth,200);
         Assertions.assertResponseHasField(responseCreateAuth,"id");
