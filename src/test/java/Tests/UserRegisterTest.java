@@ -1,6 +1,9 @@
 package Tests;
 
 import Lib.*;
+import io.qameta.allure.Flaky;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -17,6 +20,7 @@ public class UserRegisterTest extends BaseTestCase {
     String baseUrl = Config.getBaseUrl();
 
     @Test
+    @Severity(SeverityLevel.CRITICAL)
     public void testCreateUserWithExistingEmail(){
         String email = "vinkotov@example.com";
 
@@ -46,18 +50,20 @@ public class UserRegisterTest extends BaseTestCase {
     }
 
     @Test
+    @Severity (SeverityLevel.CRITICAL)
+    @Flaky
     public void testCreateUserSuccessfully(){
         String email = DataGenerator.getRandomEmail();
 
         Map<String,String> userData = DataGenerator.getRegistrationData();
 
 
-        /*Map<String,String> userData = new HashMap<>();
-        userData.put("email",email);
-        userData.put("password","123");
-        userData.put("username","learnqa");
-        userData.put("firstName","learnqa");
-        userData.put("lastName","learnqa");*/
+        //Map<String,String> userData = new HashMap<>();
+        //userData.put("email",email);
+        //userData.put("password","123");
+        //userData.put("username","learnqa");
+        //userData.put("firstName","learnqa");
+        //userData.put("lastName","learnqa");
 
         Response responseCreateAuth = RestAssured
                 .given()
@@ -76,6 +82,7 @@ public class UserRegisterTest extends BaseTestCase {
     }
 
     @Test
+    @Severity (SeverityLevel.CRITICAL)
     public void testCreateUserWithUncorrectEmail(){
         String uncorrectedEmail = "vinkotovexample.com";
 
@@ -95,6 +102,7 @@ public class UserRegisterTest extends BaseTestCase {
     }
 
     @ParameterizedTest
+    @Severity (SeverityLevel.CRITICAL)
     @ValueSource(strings = {"firstName", "lastName", "email", "password", "username"})
     public void postWithNullfield(String value){
         String valueKey = null;
@@ -117,6 +125,7 @@ public class UserRegisterTest extends BaseTestCase {
     }
 
    @Test
+   @Severity (SeverityLevel.BLOCKER)
     public void testWith1smblName(){
         String shortName = DataGenerator.getRandomShortName();
 
@@ -136,6 +145,7 @@ public class UserRegisterTest extends BaseTestCase {
 
    }
     @Test
+    @Severity (SeverityLevel.CRITICAL)
     public void testWithLongName(){
         String longName = DataGenerator.getRandomLongName();
 

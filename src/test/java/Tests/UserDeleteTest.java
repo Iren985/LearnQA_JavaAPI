@@ -1,9 +1,7 @@
 package Tests;
 
 import Lib.*;
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
+import io.qameta.allure.*;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -26,6 +24,7 @@ public class UserDeleteTest extends BaseTestCase {
     @Test
     @Description("This test to delete user with ID 2")
     @DisplayName("Test negative check user can't be deleted")
+    @Severity(SeverityLevel.NORMAL)
     public void testCheckUserCantBeDeleted(){
         //authorization
         Map<String,String> authData = new HashMap<>();
@@ -54,6 +53,7 @@ public class UserDeleteTest extends BaseTestCase {
     @Test
     @Description("This test to delete new created user")
     @DisplayName("Test positive user can be deleted")
+    @Severity (SeverityLevel.NORMAL)
     public void testUserCanBeDeleted(){
         //generate user
 
@@ -109,6 +109,7 @@ public class UserDeleteTest extends BaseTestCase {
     @Test
     @Description("This test to delete other user")
     @DisplayName("Test negative user can't delete other user")
+    @Severity (SeverityLevel.NORMAL)
     public void testUserCanDeletedOther(){
         //generate user 1
 

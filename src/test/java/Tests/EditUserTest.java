@@ -1,9 +1,7 @@
 package Tests;
 
 import Lib.*;
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
+import io.qameta.allure.*;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -24,6 +22,7 @@ public class EditUserTest extends BaseTestCase {
     @Test
     @Description("This test successfully edit just created user")
     @DisplayName("Test positive edit user")
+    @Severity(SeverityLevel.NORMAL)
     public void testEditJustCreatedTest(){
         //generate user
 
@@ -85,6 +84,7 @@ public class EditUserTest extends BaseTestCase {
 
     @Description("This test checks editing user without auth")
     @DisplayName("Test negative auth user")
+    @Severity (SeverityLevel.NORMAL)
 
     @Test
     public void testEditUserNotAuth(){
@@ -106,6 +106,7 @@ public class EditUserTest extends BaseTestCase {
 
     @Test
     @Description("This test checks editing other user than auth")
+    @Severity (SeverityLevel.NORMAL)
     public void testEditOtherUserAuth(){
             Map<String,String>authData = new HashMap<>();
             authData.put("email","Learnqa20240730135441@example.com");
@@ -136,6 +137,7 @@ public class EditUserTest extends BaseTestCase {
     }
 
     @Description("This test checks editing auth user with uncorrect email")
+    @Severity (SeverityLevel.NORMAL)
     @Test
     public void testEditUserAuth(){
         Map<String,String>authData = new HashMap<>();
@@ -165,6 +167,7 @@ public class EditUserTest extends BaseTestCase {
     }
 
     @Description("This test checks editing auth user with 1 smbl name")
+    @Severity (SeverityLevel.NORMAL)
     @Test
     public void testEditUserAuthwith1smblName(){
         Map<String,String>authData = new HashMap<>();

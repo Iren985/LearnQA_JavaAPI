@@ -4,6 +4,8 @@ import Lib.Assertions;
 import Lib.BaseTestCase;
 import Lib.ApiCoreRequests;
 import Lib.Config;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,7 @@ public class UserGetTest extends BaseTestCase {
     String baseUrl = Config.getBaseUrl();
 
     @Test
+    @Severity(SeverityLevel.NORMAL)
     public void testGetUserDataNotAuth() {
         Response responseUserData = RestAssured
                 .get(baseUrl + "user/2")
@@ -36,6 +39,7 @@ public class UserGetTest extends BaseTestCase {
     }
 
     @Test
+    @Severity (SeverityLevel.NORMAL)
     public void testGetUserDetailsAuthAsSameUser(){
         Map<String,String> authData = new HashMap<>();
         authData.put("email","vinkotov@example.com");
@@ -68,6 +72,7 @@ public class UserGetTest extends BaseTestCase {
     //с этого момента и далее все новые запросы выносятся в apiCoreRequests
 
     @Test
+    @Severity (SeverityLevel.CRITICAL)
     public void testGetUserDetailsAuthAsOtherUser(){
 
         Map<String,String>authData = new HashMap<>();
