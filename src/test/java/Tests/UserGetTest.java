@@ -3,6 +3,7 @@ package Tests;
 import Lib.Assertions;
 import Lib.BaseTestCase;
 import Lib.ApiCoreRequests;
+import Lib.Config;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -15,11 +16,12 @@ public class UserGetTest extends BaseTestCase {
     String header;
     int userIdOnAuth;
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
+    String baseUrl = Config.getBaseUrl();
 
     @Test
     public void testGetUserDataNotAuth() {
         Response responseUserData = RestAssured
-                .get("https://playground.learnqa.ru/api/user/2")
+                .get(baseUrl + "user/2")
                 .andReturn();
 
 
@@ -42,7 +44,7 @@ public class UserGetTest extends BaseTestCase {
         Response responseGetAuth = RestAssured
                 .given()
                 .body(authData)
-                .post("https://playground.learnqa.ru/api/user/login")
+                .post(baseUrl + "user/login")
                 .andReturn();
 
         String header = this.getHeader(responseGetAuth,"x-csrf-token");
@@ -52,7 +54,7 @@ public class UserGetTest extends BaseTestCase {
                 .given()
                 .header("x-csrf-token",header)
                 .cookie("auth_sid",cookie)
-                .get("https://playground.learnqa.ru/api/user/2")
+                .get(baseUrl + "user/2")
                 .andReturn();
 
 
@@ -73,7 +75,7 @@ public class UserGetTest extends BaseTestCase {
         authData.put("password","1234");
 
         Response responseGetAuth = apiCoreRequests
-                .makePostRequest("https://playground.learnqa.ru/api/user/login", authData);
+                .makePostRequest(baseUrl + "user/login", authData);
 
 
         this.cookie = this.getCookie(responseGetAuth,"auth_sid");
@@ -91,7 +93,7 @@ public class UserGetTest extends BaseTestCase {
 
 
         Response responseGetUserData = apiCoreRequests
-                .makeGetRequest("https://playground.learnqa.ru/api/user/" + checkedUser, this.header, this.cookie);
+                .makeGetRequest(baseUrl + "user/" + checkedUser, this.header, this.cookie);
 
 
 

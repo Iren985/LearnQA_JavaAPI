@@ -1,21 +1,20 @@
 package Tests;
 
-import Lib.Assertions;
-import Lib.BaseTestCase;
-import Lib.DataGenerator;
+import Lib.*;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-import Lib.ApiCoreRequests;
+
 import Lib.DataGenerator;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class UserRegisterTest extends BaseTestCase {
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
+    String baseUrl = Config.getBaseUrl();
 
     @Test
     public void testCreateUserWithExistingEmail(){
@@ -33,7 +32,7 @@ public class UserRegisterTest extends BaseTestCase {
         Response responseCreateAuth = RestAssured
                 .given()
                 .body(userData)
-                .post("https://playground.learnqa.ru/api/user/")
+                .post(baseUrl + "user/")
                 .andReturn();
 
         System.out.println(responseCreateAuth.asString());
@@ -63,7 +62,7 @@ public class UserRegisterTest extends BaseTestCase {
         Response responseCreateAuth = RestAssured
                 .given()
                 .body(userData)
-                .post("https://playground.learnqa.ru/api/user/")
+                .post(baseUrl + "user/")
                 .andReturn();
 
         System.out.println(responseCreateAuth.asString());
@@ -85,7 +84,7 @@ public class UserRegisterTest extends BaseTestCase {
         userData = DataGenerator.getRegistrationData(userData);
 
         Response responsePostUserWithUncorrectedEmail = apiCoreRequests
-                .makePostRequest("https://playground.learnqa.ru/api/user", userData);
+                .makePostRequest(baseUrl + "user", userData);
 
         System.out.println(responsePostUserWithUncorrectedEmail.asString());
         System.out.println(responsePostUserWithUncorrectedEmail.statusCode());
@@ -105,7 +104,7 @@ public class UserRegisterTest extends BaseTestCase {
         userData = DataGenerator.getRegistrationData(userData);
 
         Response responsePostUserWithUncorrectedEmail = apiCoreRequests
-                .makePostRequest("https://playground.learnqa.ru/api/user", userData);
+                .makePostRequest(baseUrl + "user", userData);
 
         System.out.println(responsePostUserWithUncorrectedEmail.asString());
         System.out.println(responsePostUserWithUncorrectedEmail.statusCode());
@@ -126,7 +125,7 @@ public class UserRegisterTest extends BaseTestCase {
        userData = DataGenerator.getRegistrationData(userData);
 
        Response responsePostUserWith1smblName = apiCoreRequests
-               .makePostRequest("https://playground.learnqa.ru/api/user", userData);
+               .makePostRequest(baseUrl + "user", userData);
 
        System.out.println(userData);
        System.out.println(responsePostUserWith1smblName.asString());
@@ -145,7 +144,7 @@ public class UserRegisterTest extends BaseTestCase {
         userData = DataGenerator.getRegistrationData(userData);
 
         Response responsePostUserWithLongName = apiCoreRequests
-                .makePostRequest("https://playground.learnqa.ru/api/user", userData);
+                .makePostRequest(baseUrl + "user", userData);
 
         System.out.println(userData);
         System.out.println(responsePostUserWithLongName.asString());

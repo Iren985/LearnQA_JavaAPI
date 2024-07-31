@@ -1,9 +1,6 @@
 package Tests;
 
-import Lib.ApiCoreRequests;
-import Lib.Assertions;
-import Lib.BaseTestCase;
-import Lib.DataGenerator;
+import Lib.*;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -24,6 +21,8 @@ public class UserDeleteTest extends BaseTestCase {
     String header;
     int userIdOnAuth;
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
+    String baseUrl = Config.getBaseUrl();
+
     @Test
     @Description("This test to delete user with ID 2")
     @DisplayName("Test negative check user can't be deleted")
@@ -34,7 +33,7 @@ public class UserDeleteTest extends BaseTestCase {
         authData.put("password","1234");
 
         Response responseGetAuth = apiCoreRequests
-                .makePostRequest("https://playground.learnqa.ru/api/user/login", authData);
+                .makePostRequest(baseUrl + "user/login", authData);
 
         this.cookie = this.getCookie(responseGetAuth,"auth_sid");
         this.header = this.getHeader(responseGetAuth,"x-csrf-token");
@@ -45,7 +44,7 @@ public class UserDeleteTest extends BaseTestCase {
         //Try to delete itself
 
         Response responseDeleteUser = apiCoreRequests
-                .makeDeleteRequestWithLogin("https://playground.learnqa.ru/api/user/"+ this.userIdOnAuth, this.cookie,this.header);
+                .makeDeleteRequestWithLogin(baseUrl + "user/"+ this.userIdOnAuth, this.cookie,this.header);
 
         System.out.println(responseDeleteUser.asString());
         System.out.println(responseDeleteUser.statusCode());
@@ -61,7 +60,7 @@ public class UserDeleteTest extends BaseTestCase {
         Map<String,String> userData = DataGenerator.getRegistrationData();
 
         Response responseCreateAuth = apiCoreRequests
-                .makePostRequest("https://playground.learnqa.ru/api/user/",userData);
+                .makePostRequest(baseUrl + "user/",userData);
 
 
 
@@ -74,7 +73,7 @@ public class UserDeleteTest extends BaseTestCase {
         authData.put("password", userData.get("password"));
 
         Response responseGetAuth = apiCoreRequests
-                .makePostRequest("https://playground.learnqa.ru/api/user/login",authData);
+                .makePostRequest(baseUrl + "user/login",authData);
 
         this.cookie = this.getCookie(responseGetAuth,"auth_sid");
         this.header = this.getHeader(responseGetAuth,"x-csrf-token");
@@ -85,7 +84,7 @@ public class UserDeleteTest extends BaseTestCase {
         //delete
 
         Response responseDeleteSuccess = apiCoreRequests
-                .makeDeleteRequestWithLogin("https://playground.learnqa.ru/api/user/"+ this.userIdOnAuth, this.cookie,this.header);
+                .makeDeleteRequestWithLogin(baseUrl + "user/"+ this.userIdOnAuth, this.cookie,this.header);
 
 
         System.out.println(responseDeleteSuccess.asString());
@@ -96,7 +95,7 @@ public class UserDeleteTest extends BaseTestCase {
         //get
 
         Response responseGetInfo = apiCoreRequests
-                .makeGetRequest("https://playground.learnqa.ru/api/user/"+ this.userIdOnAuth, this.cookie,this.header);
+                .makeGetRequest(baseUrl + "user/"+ this.userIdOnAuth, this.cookie,this.header);
 
         System.out.println(responseGetInfo.asString());
         System.out.println(responseGetInfo.statusCode());
@@ -116,7 +115,7 @@ public class UserDeleteTest extends BaseTestCase {
         Map<String,String> userData = DataGenerator.getRegistrationData();
 
         Response responseCreateAuth = apiCoreRequests
-                .makePostRequest("https://playground.learnqa.ru/api/user/",userData);
+                .makePostRequest(baseUrl + "user/",userData);
 
         System.out.println(responseCreateAuth.asString());
         String userIdToDelete = responseCreateAuth.jsonPath().getString("id");
@@ -125,7 +124,7 @@ public class UserDeleteTest extends BaseTestCase {
         Map<String,String> userData1 = DataGenerator.getRegistrationData();
 
         Response responseCreateAuth1 = apiCoreRequests
-                .makePostRequest("https://playground.learnqa.ru/api/user/",userData1);
+                .makePostRequest(baseUrl + "user/",userData1);
 
         System.out.println(responseCreateAuth1.asString());
 
@@ -136,7 +135,7 @@ public class UserDeleteTest extends BaseTestCase {
         authData.put("password", userData1.get("password"));
 
         Response responseGetAuth = apiCoreRequests
-                .makePostRequest("https://playground.learnqa.ru/api/user/login",authData);
+                .makePostRequest(baseUrl + "user/login",authData);
 
         this.cookie = this.getCookie(responseGetAuth,"auth_sid");
         this.header = this.getHeader(responseGetAuth,"x-csrf-token");
@@ -147,7 +146,7 @@ public class UserDeleteTest extends BaseTestCase {
         //delete
 
         Response responseDeleteNotSuccess = apiCoreRequests
-                .makeDeleteRequestWithLogin("https://playground.learnqa.ru/api/user/"+ userIdToDelete, this.cookie,this.header);
+                .makeDeleteRequestWithLogin(baseUrl + "user/"+ userIdToDelete, this.cookie,this.header);
 
 
         System.out.println(responseDeleteNotSuccess.asString());

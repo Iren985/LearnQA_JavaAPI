@@ -1,6 +1,8 @@
 package Tests;
 
 import Lib.BaseTestCase;
+import Lib.Config;
+import io.qameta.allure.Severity;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -31,6 +33,7 @@ public class UserAuthTest extends BaseTestCase {
     String header;
     int userIdOnAuth;
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
+    String baseUrl = Config.getBaseUrl();
 
     @BeforeEach
     public void loginUser(){
@@ -39,7 +42,7 @@ public class UserAuthTest extends BaseTestCase {
         authData.put("password","1234");
 
         Response responseGetAuth = apiCoreRequests
-                .makePostRequest("https://playground.learnqa.ru/api/user/login", authData);
+                .makePostRequest(baseUrl + "user/login", authData);
 
 
         //Вместо этого куска кода используется ссылка на ApiCoreRequests
@@ -57,9 +60,10 @@ public class UserAuthTest extends BaseTestCase {
     @Test
     @Description("This test successfully authorize user by email and password")
     @DisplayName("Test positive auth user")
+    @Severity ("normal")
     public void testAuthUser(){
         Response responseCheckAuth = apiCoreRequests
-                .makeGetRequest("https://playground.learnqa.ru/api/user/auth", this.header, this.cookie);
+                .makeGetRequest(baseUrl + "user/auth", this.header, this.cookie);
 
 
         //Вместо этого куска кода используется ссылка на ApiCoreRequests
@@ -84,13 +88,13 @@ public class UserAuthTest extends BaseTestCase {
 
         if(condition.equals("cookie")){
             Response responseForCheck = apiCoreRequests.makeGetRequestWithCookie(
-                    "https://playground.learnqa.ru/api/user/auth",
+                    baseUrl + "user/auth",
                     this.cookie
             );
             Assertions.assertJsonByName(responseForCheck,"user_id",0);
         } else if (condition.equals("headers")) {
             Response responseForCheck = apiCoreRequests.makeGetRequestWithToken(
-                    "https://playground.learnqa.ru/api/user/auth",
+                    baseUrl + "user/auth",
                     this.header
             );
             Assertions.assertJsonByName(responseForCheck,"user_id",0);
